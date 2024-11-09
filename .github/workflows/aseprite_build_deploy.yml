@@ -32,7 +32,7 @@ jobs:
         echo "::set-output name=version_info::${VERSION_INFO}"
     - name: Load version from cache
       id: version_check
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.version_info.outputs.latest_tag }}.txt
         key: cached_version
@@ -66,7 +66,7 @@ jobs:
     steps:
       - name: (Windows) Install dependencies
         if: matrix.os == 'windows-latest'
-        uses: seanmiddleditch/gha-setup-ninja@v1
+        uses: seanmiddleditch/gha-setup-ninja@master
       - name: (Ubuntu) Install dependencies
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt install -y cmake ninja-build libxcursor-dev libxi-dev libgl1-mesa-dev
@@ -75,7 +75,7 @@ jobs:
         run: brew install ninja p7zip
       - name: Get Skia from cache
         id: skia-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: skia
           key: skia-${{ matrix.os }}-cache
@@ -95,7 +95,7 @@ jobs:
         run: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
       - name: (Windows) Setting Visual Studio build environment variables and paths
         if: matrix.os == 'windows-latest'
-        uses: seanmiddleditch/gha-setup-vsdevenv@v1
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
       - name: (Windows) Run CMake
         if: matrix.os == 'windows-latest'
         working-directory: aseprite/build
